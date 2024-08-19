@@ -19,7 +19,7 @@ def findMany(db: Session = Depends(get_db)) -> list[Category]:
 
 
 @router.get("/search/")
-def searchPaginate(page: int = 1, term: str = "", db: Session = Depends(get_db)):
+def searchPaginate(page: int = 1, term: str = "", db: Session = Depends(get_db)) -> CategoryPaginateResponse:
 	pageTake = 10
 
 	queryCount = db.query(models.Category).filter(models.Category.name.ilike(f"%{term}%")).count()

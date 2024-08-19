@@ -7,6 +7,8 @@ from modules.auth import auth_controller
 from modules.category import category_controller
 from modules.files import files_controller
 from modules.product import product_controller
+from modules.restock import restock_controller
+from modules.supplier import supplier_controller
 from modules.user import user_controller
 
 models.Base.metadata.create_all(bind=engine)
@@ -27,7 +29,9 @@ app.include_router(user_controller.router, tags=["User"], prefix="/api/user")
 app.include_router(auth_controller.router, tags=["Auth"], prefix="/api/auth")
 app.include_router(category_controller.router, tags=["Category"], prefix="/api/category")
 app.include_router(product_controller.router, tags=["Product"], prefix="/api/product")
+app.include_router(supplier_controller.router, tags=["Supplier"], prefix="/api/supplier")
 app.include_router(files_controller.router, tags=["Files"], prefix="/api/files")
+app.include_router(restock_controller.router, tags=["Restock"], prefix="/api/restock")
 
 if __name__ == "__main__":
 	import uvicorn

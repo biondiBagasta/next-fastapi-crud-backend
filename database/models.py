@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, String, Column, DateTime, DECIMAL
+from sqlalchemy import ForeignKey, Integer, String, Column, DateTime, DECIMAL, Text
 from datetime import datetime
 
 from sqlalchemy.orm import relationship
@@ -49,5 +49,15 @@ class Supplier(Base):
 	name = Column(String(50), nullable=False)
 	address = Column(String(255), nullable=False)
 	phone_number = Column(String(20), nullable=False)
+	created_at = Column(DateTime, default=datetime.now())
+	updated_at = Column(DateTime, default=datetime.now())
+
+class Restock(Base):
+	__tablename__ = "restock"
+
+	id = Column(Integer, primary_key=True, nullable=False, autoincrement=False)
+	restock_date = Column(DateTime, nullable=False)
+	amount = Column(Integer, nullable=False)
+	detail = Column(Text, nullable=False)
 	created_at = Column(DateTime, default=datetime.now())
 	updated_at = Column(DateTime, default=datetime.now())

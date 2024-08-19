@@ -1,4 +1,5 @@
 
+from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy import delete, exc, insert, select, update
 from sqlalchemy.orm import Session
@@ -7,14 +8,20 @@ from database import models
 from database.db import get_db
 from schemas.paginate_schema import Paginate
 from schemas.response_query_schema import ResponseQuery
-from schemas.supplier_schema import SupplierCreateDto, SupplierPaginateResponse, SupplierUpdateDto
+from schemas.supplier_schema import Supplier, SupplierCreateDto, SupplierPaginateResponse, SupplierUpdateDto
 from utils.utils import authGuard
 
 
 router = APIRouter(dependencies=[Depends(authGuard)])
 
+@router.get("/many")
+def findMany(db: Session = Depends(get_db)) -> List[Supplier]:
+	queryFindMany = db.query(models.Supplier).order_by(models.Supplier.name.asc()).all()
+
+	return list(queryFindMany)
+
 @router.get("/search/")
-def searchPaginate(page: int = 10, term: str = "", db: Session = Depends(get_db)) -> SupplierPaginateResponse:
+def searchPaginate(page: int = 1, term: str = "", db: Session = Depends(get_db)) -> SupplierPaginateResponse:
 	pageTake = 10
 	queryCount = db.query(models.Supplier).filter(models.Supplier.name.ilike(f"%{term}%")).count()
 	querySearch = db.execute(
